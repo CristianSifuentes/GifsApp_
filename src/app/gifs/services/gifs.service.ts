@@ -6,6 +6,9 @@ import { environment } from '@environments/environment';
 import { Gif } from '../interfaces/gif.interface';
 import type { GiphyResponse } from '../interfaces/giphy.interfaces';
 import { GifMapper } from '../mapper/gif.mapper';
+import { Follower } from '../interfaces/follower.github.interface';
+import { GithubMapper } from '../mapper/github..mapper';
+import { Following } from '../interfaces/following.github.interfaces';
 
 const GIF_KEY = 'gifs';
 
@@ -29,7 +32,11 @@ export class GifService {
   private http = inject(HttpClient);
 
   trendingGifs = signal<Gif[]>([]); //[gif,gif,gif,gif,gif,gif,]
+  trendingGithub = signal<Follower[]>([]); //[gif,gif,gif,gif,gif,gif,]
+
   trendingGifsLoading = signal(false);
+  trendingGithubsLoading = signal(false);
+
   private trendingPage = signal(0);
 
   // [ [gif,gif,gif,], [gif,gif,gif,],[gif,gif,gif,],[gif,gif,gif,] ]
@@ -42,11 +49,21 @@ export class GifService {
     return groups; //[ [g1,g2,g3],[g4,g5]]
   });
 
+  trendingGihubGroup = computed<Follower[][]>(() => {
+    const groups = [];
+    for (let i = 0; i < this.trendingGithub().length; i += 3) {
+      groups.push(this.trendingGithub().slice(i, i + 3));
+    }
+
+    return groups; //[ [g1,g2,g3],[g4,g5]]
+  });
+
   searchHistory = signal<Record<string, Gif[]>>(loadFromLocalStorage());
   searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
 
   constructor() {
     this.loadTrendingGifs();
+    this.loadTrendingGithub();
   }
 
   saveGifsToLocalStorage = effect(() => {
@@ -73,6 +90,23 @@ export class GifService {
         this.trendingPage.update((page) => page + 1);
 
         this.trendingGifsLoading.set(false);
+      });
+  }
+
+  loadTrendingGithub() {
+    if (this.trendingGithubsLoading()) return;
+
+    this.trendingGithubsLoading.set(true);
+
+    this.http
+      .get<Following>(`${environment.endpoints.url}/users/CristianSifuentes/following`)
+      .subscribe((resp) => {
+        const followers = GithubMapper.mapFollowing(resp);
+        console.log({ followers });
+        this.trendingGithub.update((currentGithubs) => [...currentGithubs, ...followers]);
+        this.trendingPage.update((page) => page + 1);
+
+        this.trendingGithubsLoading.set(false);
       });
   }
 

@@ -13,6 +13,11 @@ export const routes: Routes = [
           import('./gifs/pages/trending-page/trending-page.component'),
       },
       {
+        path: 'trending-github',
+        loadComponent: () =>
+          import('./gifs/pages/trending-page-github/trending-page-github.component'),
+      },
+      {
         path: 'search',
         loadComponent: () =>
           import('./gifs/pages/search-page/search-page.component'),
@@ -24,7 +29,7 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'trending',
+        redirectTo: 'trending-github',
       },
     ],
   },
