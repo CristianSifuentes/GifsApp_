@@ -11,6 +11,7 @@ import { ScrollStateService } from 'src/app/shared/services/scroll-state.service
 @Component({
   selector: 'app-trending-page-github',
   templateUrl: './trending-page-github.component.html',
+  styleUrls: ['./trending-page-github.component.css']
 })
 export default class TrendingPageComponent implements AfterViewInit {
   gifService = inject(GifService);

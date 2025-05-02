@@ -38,6 +38,8 @@ export class GifService {
   trendingGithubsLoading = signal(false);
 
   private trendingPage = signal(0);
+  private trendingPageGithub = signal(0);
+
 
   // [ [gif,gif,gif,], [gif,gif,gif,],[gif,gif,gif,],[gif,gif,gif,] ]
   trendingGifGroup = computed<Gif[][]>(() => {
@@ -62,7 +64,7 @@ export class GifService {
   searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
 
   constructor() {
-    this.loadTrendingGifs();
+    // this.loadTrendingGifs();
     this.loadTrendingGithub();
   }
 
@@ -99,12 +101,12 @@ export class GifService {
     this.trendingGithubsLoading.set(true);
 
     this.http
-      .get<Following>(`${environment.endpoints.url}/users/CristianSifuentes/following`)
+      .get<Following>(`${environment.endpoints.url}/users/CristianSifuentes/following?per_page=100`)
       .subscribe((resp) => {
         const followers = GithubMapper.mapFollowing(resp);
         console.log({ followers });
         this.trendingGithub.update((currentGithubs) => [...currentGithubs, ...followers]);
-        this.trendingPage.update((page) => page + 1);
+        this.trendingPageGithub.update((page) => page + 1);
 
         this.trendingGithubsLoading.set(false);
       });

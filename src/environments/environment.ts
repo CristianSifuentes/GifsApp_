@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  companyName: 'Gifs',
+  companyName: 'Gihub',
   companyName2: 'App',
-  companySlogan: 'Maneja tus gifs',
+  companySlogan: 'Manage your GitHub information',
 
   // ApiKeys
   // https://developers.giphy.com/dashboard/
