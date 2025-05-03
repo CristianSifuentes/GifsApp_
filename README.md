@@ -12,7 +12,19 @@
    * [Styling](#styling)
    * [Testing](#testing)
 5. [Summary for Classroom Presentation](#5-summary-for-classroom-presentation)
-
+6. [Performance Comparison Table](#6-performance-comparison-table)
+7. [Notes & Analysis](#7-notes--analysis)
+8. [Expert Insight: When to Choose Angular 19](#8-expert-insight-when-to-choose-angular-19)
+9. [Bundle Size Improvements](#9-bundle-size-improvements)
+10. [Runtime Rendering Speed](#10-runtime-rendering-speed)
+11. [Change Detection Algorithm](#11-change-detection-algorithm)
+12. [Compile Time (AOT)](#12-compile-time-aot)
+13. [Hot Reload Support](#13-hot-reload-support)
+14. [Unit Test Execution Speed](#14-unit-test-execution-speed)
+15. [Memory Usage at Runtime](#15-memory-usage-at-runtime)
+16. [SSR Speed with Hydration](#16-ssr-speed-with-hydration)
+17. [Code Splitting Granularity](#17-code-splitting-granularity)
+18. [Summary: Core Angular Technologies](#18-summary-core-angular-technologies)
 ---
 
 ## 1. Checklist of Major Changes
@@ -120,3 +132,200 @@ Angular today is a reactive, high-performance framework built for the future of 
 ```
 
 ---
+
+
+
+
+---
+
+## 6. Performance Comparison Table
+
+| **Category**                        | **Angular v5 (View Engine)** | **Angular v19 (Ivy + Signals)**      | **React 18**     | **Vue 3**        | **Svelte**              |
+| ----------------------------------- | ---------------------------- | ------------------------------------ | ---------------- | ---------------- | ----------------------- |
+| 🧱 **Initial Bundle Size**          | \~250–300 KB                 | \~120–160 KB                         | \~150 KB         | \~90 KB          | \~30–60 KB              |
+| 🚀 **Runtime Rendering Speed**      | 1.0x (baseline)              | 1.8–2.2x faster                      | \~1.5x           | \~1.8x           | \~2.5x                  |
+| 🧮 **Change Detection Time**        | Linear w/ bindings           | Fine-grained via Signals             | Batched w/ Fiber | Reactive proxies | Compile-time reactivity |
+| 🔧 **Build Time (AOT)**             | \~35–40s (cold start)        | \~18–22s                             | \~20–25s         | \~10–15s         | \~5–8s                  |
+| 🔄 **Hot Reload Support**           | ❌ (very limited)             | ✅ with HMR & Vite plugins            | ✅                | ✅                | ✅                       |
+| 🧪 **Unit Test Execution Speed**    | Slower, legacy Jasmine/Karma | Faster with Jest, Vitest, Cypress    | Jest             | Vitest           | Vitest                  |
+| 🧬 **Memory Usage at Runtime**      | Higher (\~70–90MB app avg.)  | Lower (\~40–60MB avg.)               | Similar          | Slightly less    | Very low                |
+| 💡 **SSR Speed (with hydration)**   | Partial, legacy engine       | ✅ With Angular Universal + Hydration | ✅ ReactDOMServer | ✅                | ✅                       |
+| 🌐 **Time-to-Interactive (TTI)**    | 5–7s (large apps)            | 2–3s (optimized w/ preloading)       | \~2–3s           | \~1.5–2s         | <1.5s                   |
+| 📦 **Code Splitting Granularity**   | Coarse (per route)           | Fine (per component/feature)         | Moderate         | Fine             | Fine                    |
+| 🧠 **Developer Productivity Score** | 6/10                         | 9/10                                 | 8/10             | 9/10             | 8/10                    |
+
+---
+
+## 7. Notes & Analysis
+
+* **Angular 19** significantly reduces memory usage and re-render overhead thanks to **Signals**.
+* **Bundle Size**: Reduced by nearly 50% compared to Angular 5 due to improved tree-shaking and Ivy.
+* **Change Detection**: Angular 5 runs linear checks, while v19 tracks exact dependencies via fine-grained reactivity.
+* **SSR**: Now capable of **hydration**, making Angular competitive in server-side performance.
+* **TTI**: Time-to-Interactive is cut by more than half in modern Angular due to better preloading and control flow optimization.
+* **Compared to Others**: While Angular is heavier than Svelte, its architectural robustness and tooling make it ideal for enterprise-scale projects.
+
+---
+
+## 8. Expert Insight: When to Choose Angular 19
+
+### ✅ Use Angular 19 when:
+
+* You require **enterprise-level scalability**.
+* You depend on **strict type safety** and **modular architecture**.
+* You want out-of-the-box **internationalization, SSR, and testing tools**.
+* You aim for long-term **maintenance and community support**.
+
+### ❌ Avoid Angular 19 when:
+
+* You’re building **micro-tools** or **performance-critical widgets** under 30KB.
+* You prioritize **minimal runtime overhead** over ecosystem robustness — in that case, Svelte or Preact may be better.
+
+### 🎯 Final Thought:
+
+Angular 19 brings the **best of reactive paradigms, performance, and tooling**, positioning itself as a full-stack frontend framework for the modern web.
+
+---
+
+## 9. Bundle Size Improvements
+
+| Version | Key Improvement      | Technologies                                                            |
+| ------- | -------------------- | ----------------------------------------------------------------------- |
+| v5      | Large static bundles | Webpack 3, View Engine                                                  |
+| v19     | \~50% smaller        | Ivy Compiler, Tree-shaking, Differential Loading, Standalone Components |
+
+**Explanation**:
+
+* Ivy compiles only what's used.
+* Differential loading sends smaller ES2015+ bundles to modern browsers.
+* No need for large NgModules when using Standalone Components.
+
+---
+
+## 10. Runtime Rendering Speed
+
+| Version | Speed           | Technologies                                  |
+| ------- | --------------- | --------------------------------------------- |
+| v5      | Baseline        | Zone.js + View Engine                         |
+| v19     | 1.8–2.2x faster | Ivy, Angular Signals, fine-grained reactivity |
+
+**Explanation**:
+
+* Ivy does incremental template rendering.
+* Signals track state dependencies for efficient reactivity.
+
+---
+
+## 11. Change Detection Algorithm
+
+| Version | Behavior                 | Technologies                               |
+| ------- | ------------------------ | ------------------------------------------ |
+| v5      | Tree-wide dirty checking | Zone.js monkey patching                    |
+| v19     | Fine-grained reactivity  | Signal graph, `destroyRef`, unpatched mode |
+
+**Explanation**:
+
+* Signals replace dirty checking with dependency tracking.
+* Components update only when relevant signals change.
+
+---
+
+## 12. Compile Time (AOT)
+
+| Version | Behavior            | Technologies                      |
+| ------- | ------------------- | --------------------------------- |
+| v5      | Full app compile    | `ngc`, static AOT                 |
+| v19     | Component-level AOT | Ivy, esbuild, Vite (experimental) |
+
+**Explanation**:
+
+* Ivy supports incremental compilation.
+* Vite and esbuild support faster dev builds.
+
+---
+
+## 13. Hot Reload Support
+
+| Version | Status          | Technologies               |
+| ------- | --------------- | -------------------------- |
+| v5      | ❌ Not supported | Webpack-dev-server         |
+| v19     | ✅ Supported     | HMR, esbuild/Vite adapters |
+
+**Explanation**:
+
+* CLI now supports `--hmr`
+* Standalone components enable lightweight reloads.
+
+---
+
+## 14. Unit Test Execution Speed
+
+| Version | Speed  | Technologies             |
+| ------- | ------ | ------------------------ |
+| v5      | Slower | Karma + Jasmine          |
+| v19     | Faster | Jest, Vitest, Cypress CT |
+
+**Explanation**:
+
+* TestBed improvements enable faster overrides.
+* Tests can now run outside browsers (Jest).
+
+---
+
+## 15. Memory Usage at Runtime
+
+| Version | Usage             | Technologies             |
+| ------- | ----------------- | ------------------------ |
+| v5      | High (\~70–90MB)  | View Engine              |
+| v19     | Lower (\~40–60MB) | Ivy, Signals, destroyRef |
+
+**Explanation**:
+
+* Ivy reduces unused metadata.
+* Signals avoid unnecessary Observables.
+
+---
+
+## 16. SSR Speed with Hydration
+
+| Version | Status      | Technologies                  |
+| ------- | ----------- | ----------------------------- |
+| v5      | Partial     | Angular Universal legacy      |
+| v19     | ✅ Supported | Angular Universal + Hydration |
+
+**Explanation**:
+
+* Angular v16+ supports partial hydration.
+* Uses TransferState and platform-server serialization.
+
+---
+
+## 17. Code Splitting Granularity
+
+| Version | Strategy              | Technologies                         |
+| ------- | --------------------- | ------------------------------------ |
+| v5      | Lazy routes only      | `loadChildren` string syntax         |
+| v19     | Per feature/component | Dynamic import, ESM, Standalone APIs |
+
+**Explanation**:
+
+* Lazy-load standalone components or directives.
+* Improved ESM module support for tree-shaking.
+
+---
+
+## 18. Summary: Core Angular Technologies
+
+| Technology                | Introduced | Impact                                 |
+| ------------------------- | ---------- | -------------------------------------- |
+| Ivy Compiler              | v9         | Smaller bundles, faster rendering      |
+| Angular Signals           | v16        | Precise, reactive state updates        |
+| Standalone Components     | v14        | Modular architecture without NgModules |
+| Unpatched Mode (no zones) | v18        | Better change detection performance    |
+| Partial Hydration         | v16–19     | Faster SSR and SEO improvements        |
+| Vite + esbuild Support    | v18–19     | Near-instant build and reload          |
+
+Angular v19 is the result of years of architectural evolution, now offering **performance parity with modern frameworks** like React and Vue — while retaining **enterprise-scale capabilities** and **first-party tooling**.
+
+---
+
