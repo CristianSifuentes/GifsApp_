@@ -9,12 +9,12 @@
 >
   @for (group of gifService.trendingGihubGroup(); track $index) {
   <div class="grid gap-6">
-    @for (gif of group; track gif.id) {
+      @for (gif of group; track gif.id) {
     <div class="hover-underline">
       <img
         class="h-full w-full rounded-lg object-cover"
         [src]="gif.avatar_url"
-        [alt]="gif.html_url"
+        [alt]="gif.html_url" (click)="onNavigate(gif.html_url)"
       />
     </div>
     }

@@ -42,4 +42,8 @@ export default class TrendingPageComponent implements AfterViewInit {
       this.gifService.loadTrendingGithub();
     }
   }
+
+  onNavigate(url: any){
+    if (url) { window.open(url, "_blank");}
+  }
 }

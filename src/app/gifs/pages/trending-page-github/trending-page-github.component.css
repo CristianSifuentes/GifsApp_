@@ -3,6 +3,7 @@
   color: #ffffff;
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 
 .hover-underline::after,
@@ -17,6 +18,7 @@
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.4s ease-out;
+
 }
 
 .hover-underline::before {
@@ -28,3 +30,4 @@
 .hover-underline:hover::before {
   transform: scaleX(1);
 }
+
