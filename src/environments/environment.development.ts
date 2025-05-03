@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  companyName: 'Gihub',
+  companyName: 'Github',
   companyName2: 'App',
   companySlogan: 'Manage your GitHub information',
 
