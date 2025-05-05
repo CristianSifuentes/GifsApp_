@@ -18,17 +18,17 @@ export class SideMenuOptionsComponent {
   gifService = inject(GifService);
 
   menuOptions: MenuOption[] = [
-    {
-      icon: 'fa-solid fa-chart-line',
-      label: 'Trending',
-      subLabel: 'Gifs Populares',
-      route: '/dashboard/trending',
-    },
-    {
-      icon: 'fa-solid fa-magnifying-glass',
-      label: 'Buscador',
-      subLabel: 'Buscar gifs',
-      route: '/dashboard/search',
-    },
+    // {
+    //   icon: 'fa-solid fa-chart-line',
+    //   label: 'Trending',
+    //   subLabel: 'Gifs Populares',
+    //   route: '/dashboard/trending',
+    // },
+    // {
+    //   icon: 'fa-solid fa-magnifying-glass',
+    //   label: 'Buscador',
+    //   subLabel: 'Buscar gifs',
+    //   route: '/dashboard/search',
+    // },
   ];
 }
