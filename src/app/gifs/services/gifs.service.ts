@@ -9,7 +9,7 @@ import { GifMapper } from '../mapper/gif.mapper';
 import { Follower } from '../interfaces/follower.github.interface';
 import { GithubMapper } from '../mapper/github..mapper';
 import { Following } from '../interfaces/following.github.interfaces';
-
+//features modules
 const GIF_KEY = 'gifs';
 
 const loadFromLocalStorage = () => {
@@ -50,6 +50,9 @@ export class GifService {
 
     return groups; //[ [g1,g2,g3],[g4,g5]]
   });
+
+  // Computed Property for trending Github followers in groups of 3
+  // [ [gif,gif,gif,], [gif,gif,gif,],[gif,gif,gif,],[gif,gif,gif,] ]
 
   trendingGihubGroup = computed<Follower[][]>(() => {
     const groups = [];

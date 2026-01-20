@@ -329,3 +329,6 @@ Angular v19 is the result of years of architectural evolution, now offering **pe
 
 ---
 
+https://flowbite.com/docs/components/gallery/
+https://gist.github.com/Klerith/62b9c267499571fa26dabb17f3bb245f
+https://flowbite.com/docs/components/gallery/
